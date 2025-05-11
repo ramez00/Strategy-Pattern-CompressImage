@@ -1,4 +1,6 @@
-﻿Console.WriteLine("Welcome To our App to convert Image");
+﻿using Strategy_Pattern_CompressImage.Strategy;
+
+Console.WriteLine("Welcome To our App to convert Image");
 Console.WriteLine("Plz Select Image Type ");
 Console.WriteLine("[1].JPEG ");
 Console.WriteLine("[2].PNG ");
@@ -7,22 +9,25 @@ Console.WriteLine("[3].GIF ");
 int choise;
 if (int.TryParse(Console.ReadLine(), out choise))
 {
-    Loading(); 
+    Loading();
+    var context = new ImageContext();
     switch (choise)
     {
         case 1:
-            Console.WriteLine("You have selected JPEG");
+            context.SetImageStrategy(new JpegStrategy());
             break;
         case 2:
-            Console.WriteLine("You have selected PNG");
+            context.SetImageStrategy(new PngStrategy());
             break;
         case 3:
-            Console.WriteLine("You have selected GIF");
+            context.SetImageStrategy(new GifStrategy());
             break;
         default:
-            Console.WriteLine("Invalid selection");
+            context.SetImageStrategy(new InvalidStrategy());
             break;
     }
+    context.CompressImage();
+
 }
 
 void Loading()
